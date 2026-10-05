@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>TokenUsageReader</RootNamespace>
+    <AssemblyName>TokenUsageReader</AssemblyName>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <!-- Exe icon (Explorer, taskbar, Start); the tray keeps its live percentage icon. -->
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <!-- Strings.resx is English: no satellite lookup for it; Italian ships as it\TokenUsageReader.resources.dll. -->
+    <NeutralLanguage>en</NeutralLanguage>
+    <SatelliteResourceLanguages>en;it</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Italian texts. Keys: see Strings.cs; anything missing here falls back to Strings.resx (English). -->
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <!-- App and tray -->
+  <data name="ErrorTitle" xml:space="preserve"><value>Token Usage Reader – errore</value></data>
+  <data name="TrayLoading" xml:space="preserve"><value>Token Usage Reader – caricamento…</value></data>
+  <data name="TrayNoProviders" xml:space="preserve"><value>Token Usage Reader – nessun provider abilitato</value></data>
+  <data name="TrayError" xml:space="preserve"><value>Token Usage Reader – errore: {0}</value></data>
+  <data name="TipError" xml:space="preserve"><value>errore</value></data>
+  <data name="TipNoData" xml:space="preserve"><value>n/d</value></data>
+  <data name="NoProviders" xml:space="preserve"><value>Nessun provider abilitato</value></data>
+  <data name="RefreshNow" xml:space="preserve"><value>Aggiorna ora</value></data>
+  <data name="RefreshNowLast" xml:space="preserve"><value>Aggiorna ora (ultimo: {0:HH:mm})</value></data>
+  <data name="AutoRefreshEvery" xml:space="preserve"><value>Aggiornamento automatico: ogni {0} min</value></data>
+  <data name="AutoRefreshOff" xml:space="preserve"><value>Aggiornamento automatico: disattivato</value></data>
+  <data name="SettingsMenu" xml:space="preserve"><value>Configurazione…</value></data>
+  <data name="StartWithWindows" xml:space="preserve"><value>Avvia con Windows</value></data>
+  <data name="DontStartWithWindows" xml:space="preserve"><value>Non avviare con Windows</value></data>
+  <data name="Exit" xml:space="preserve"><value>Esci</value></data>
+  <data name="StartupToggleFailed" xml:space="preserve"><value>Impossibile modificare l'avvio automatico: {0}</value></data>
+  <data name="Timeout" xml:space="preserve"><value>timeout</value></data>
+
+  <!-- Settings -->
+  <data name="SettingsTitle" xml:space="preserve"><value>Token Usage Reader – Configurazione</value></data>
+  <data name="PageGeneral" xml:space="preserve"><value>Generale</value></data>
+  <data name="AutoRefresh" xml:space="preserve"><value>Aggiorna automaticamente</value></data>
+  <data name="RefreshInterval" xml:space="preserve"><value>Intervallo (minuti):</value></data>
+  <data name="Language" xml:space="preserve"><value>Lingua:</value></data>
+  <data name="HintGeneral" xml:space="preserve"><value>Claude e Copilot vengono letti a ogni aggiornamento. Senza aggiornamento automatico usa "Aggiorna ora" dal menu.</value></data>
+  <data name="ClaudeEnabled" xml:space="preserve"><value>Abilita Claude</value></data>
+  <data name="ClaudeLimits" xml:space="preserve"><value>Limiti abbonamento Pro/Max (finestra 5h e settimanale)</value></data>
+  <data name="ClaudeLocalTokens" xml:space="preserve"><value>Token da Claude Code locale (oggi e mese)</value></data>
+  <data name="HintClaude" xml:space="preserve"><value>I limiti usano il login di Claude Code (~/.claude/.credentials.json) tramite un endpoint non documentato.</value></data>
+  <data name="CopilotEnabled" xml:space="preserve"><value>Abilita GitHub Copilot</value></data>
+  <data name="Mode" xml:space="preserve"><value>Modalità:</value></data>
+  <data name="CopilotModeInternal" xml:space="preserve"><value>internal – % quota (non documentato)</value></data>
+  <data name="CopilotModeBilling" xml:space="preserve"><value>billing – API ufficiale</value></data>
+  <data name="GitHubToken" xml:space="preserve"><value>Token GitHub:</value></data>
+  <data name="CopilotTokenPlaceholder" xml:space="preserve"><value>vuoto = login di `copilot`, GITHUB_TOKEN o `gh`</value></data>
+  <data name="Username" xml:space="preserve"><value>Username:</value></data>
+  <data name="PremiumQuota" xml:space="preserve"><value>Quota premium/mese:</value></data>
+  <data name="CopilotLocal" xml:space="preserve"><value>Premium request dalle sessioni locali della CLI `copilot`</value></data>
+  <data name="HintCopilot" xml:space="preserve"><value>Senza token si usa quello salvato da `copilot login`. Username e quota servono solo in modalità billing. Un token scritto qui viene salvato in Gestione credenziali di Windows, non in config.json.</value></data>
+  <data name="Save" xml:space="preserve"><value>Salva</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Annulla</value></data>
+  <data name="OpenConfigFile" xml:space="preserve"><value>Apri config.json</value></data>
+  <data name="BillingNeedsUsername" xml:space="preserve"><value>In modalità billing Copilot richiede lo username GitHub.</value></data>
+  <data name="InvalidUsername" xml:space="preserve"><value>Username GitHub non valido: solo lettere, numeri e trattini singoli, massimo 39 caratteri.</value></data>
+  <data name="CannotSaveConfig" xml:space="preserve"><value>Impossibile salvare la configurazione:
+{0}</value></data>
+
+  <!-- Config loading -->
+  <data name="ConfigInvalidReset" xml:space="preserve"><value>config.json non valido, ripristinati i valori predefiniti (copia in config.json.bak): {0}</value></data>
+  <data name="ConfigInvalidNotSaved" xml:space="preserve"><value>config.json non valido, uso i valori predefiniti senza salvarli: {0}</value></data>
+  <data name="ConfigUnreadable" xml:space="preserve"><value>Impossibile leggere config.json, uso i valori predefiniti: {0}</value></data>
+  <data name="CredentialReadFailed" xml:space="preserve"><value>Impossibile leggere il token da Gestione credenziali: {0}</value></data>
+
+  <!-- Claude -->
+  <data name="TooManyRequestsRetryAt" xml:space="preserve"><value>troppe richieste, riprovo alle {0:HH:mm}</value></data>
+  <data name="ClaudeCredentialsNotFound" xml:space="preserve"><value>credenziali Claude Code non trovate</value></data>
+  <data name="ClaudeNotLoggedIn" xml:space="preserve"><value>login Claude.ai assente: esegui /login in Claude Code</value></data>
+  <data name="ClaudeCredentialsIncomplete" xml:space="preserve"><value>credenziali Claude Code incomplete</value></data>
+  <data name="ClaudeCredentialsUnreadable" xml:space="preserve"><value>credenziali Claude Code illeggibili</value></data>
+  <data name="ClaudeTokenExpired" xml:space="preserve"><value>token scaduto: apri Claude Code</value></data>
+  <data name="LabelSession5h" xml:space="preserve"><value>Sessione 5h</value></data>
+  <data name="LabelWeek" xml:space="preserve"><value>Settimana</value></data>
+  <data name="LabelWeekOpus" xml:space="preserve"><value>Settimana Opus</value></data>
+  <data name="LabelWeekSonnet" xml:space="preserve"><value>Settimana Sonnet</value></data>
+  <data name="ResetSuffix" xml:space="preserve"><value> (reset {0})</value></data>
+  <data name="LabelLimits" xml:space="preserve"><value>Limiti</value></data>
+  <data name="LimitsStale" xml:space="preserve"><value>dati delle {0:HH:mm} (troppe richieste, riprovo alle {1:HH:mm})</value></data>
+  <data name="LabelTokensToday" xml:space="preserve"><value>Token oggi</value></data>
+  <data name="LabelTokensMonth" xml:space="preserve"><value>Token mese</value></data>
+  <data name="ResetNow" xml:space="preserve"><value>ora</value></data>
+  <data name="ResetIn" xml:space="preserve"><value>tra {0}h{1:00}</value></data>
+
+  <!-- Copilot -->
+  <data name="NoGitHubToken" xml:space="preserve"><value>nessun token GitHub (`copilot login`, config, GITHUB_TOKEN o `gh auth login`)</value></data>
+  <data name="UnexpectedGitHubResponse" xml:space="preserve"><value>risposta GitHub inattesa</value></data>
+  <data name="LabelPlan" xml:space="preserve"><value>Piano</value></data>
+  <data name="Unlimited" xml:space="preserve"><value>illimitato</value></data>
+  <data name="LabelReset" xml:space="preserve"><value>Reset</value></data>
+  <data name="LabelCliPremiumToday" xml:space="preserve"><value>CLI premium oggi</value></data>
+  <data name="LabelCliPremiumMonth" xml:space="preserve"><value>CLI premium mese</value></data>
+  <data name="CopilotUsernameMissing" xml:space="preserve"><value>imposta copilot.username</value></data>
+  <data name="CopilotUsernameInvalid" xml:space="preserve"><value>copilot.username non valido</value></data>
+</root>
