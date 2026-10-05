@@ -94,6 +94,7 @@ internal static class Strings
     public static string LimitsStale(DateTime dataAt, DateTime retryAt) => Format(dataAt, retryAt);
     public static string LabelTokensToday => Get();
     public static string LabelTokensMonth => Get();
+    public static string TokensWithCost(string tokens, string approx, double usd) => string.Format(Culture, Get(), tokens, approx, usd);
     public static string ResetNow => Get();
     public static string ResetIn(int hours, int minutes) => Format(hours, minutes);
 

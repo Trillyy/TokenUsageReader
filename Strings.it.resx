@@ -34,8 +34,8 @@
   <data name="HintGeneral" xml:space="preserve"><value>Claude e Copilot vengono letti a ogni aggiornamento. Senza aggiornamento automatico usa "Aggiorna ora" dal menu.</value></data>
   <data name="ClaudeEnabled" xml:space="preserve"><value>Abilita Claude</value></data>
   <data name="ClaudeLimits" xml:space="preserve"><value>Limiti abbonamento Pro/Max (finestra 5h e settimanale)</value></data>
-  <data name="ClaudeLocalTokens" xml:space="preserve"><value>Token da Claude Code locale (oggi e mese)</value></data>
-  <data name="HintClaude" xml:space="preserve"><value>I limiti usano il login di Claude Code (~/.claude/.credentials.json) tramite un endpoint non documentato.</value></data>
+  <data name="ClaudeLocalTokens" xml:space="preserve"><value>Token da Claude Code locale (oggi e mese, con costo stimato)</value></data>
+  <data name="HintClaude" xml:space="preserve"><value>I limiti usano il login di Claude Code (~/.claude/.credentials.json) tramite un endpoint non documentato. Il costo è una stima ai prezzi di listino delle API, non quanto addebita un abbonamento Pro/Max.</value></data>
   <data name="CopilotEnabled" xml:space="preserve"><value>Abilita GitHub Copilot</value></data>
   <data name="Mode" xml:space="preserve"><value>Modalità:</value></data>
   <data name="CopilotModeInternal" xml:space="preserve"><value>internal – % quota (non documentato)</value></data>
@@ -76,6 +76,7 @@
   <data name="LimitsStale" xml:space="preserve"><value>dati delle {0:HH:mm} (troppe richieste, riprovo alle {1:HH:mm})</value></data>
   <data name="LabelTokensToday" xml:space="preserve"><value>Token oggi</value></data>
   <data name="LabelTokensMonth" xml:space="preserve"><value>Token mese</value></data>
+  <data name="TokensWithCost" xml:space="preserve"><value>{0} · {1} ${2:0.00}</value></data>
   <data name="ResetNow" xml:space="preserve"><value>ora</value></data>
   <data name="ResetIn" xml:space="preserve"><value>tra {0}h{1:00}</value></data>
 

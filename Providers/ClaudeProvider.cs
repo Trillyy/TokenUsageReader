@@ -6,7 +6,7 @@ namespace TokenUsageReader.Providers;
 /// <summary>
 /// Claude usage from two sources:
 ///  - Pro/Max rate-limit windows via the OAuth usage endpoint Claude Code's /usage uses (undocumented).
-///  - Token totals parsed from the local Claude Code transcripts (~/.claude/projects/**/*.jsonl).
+///  - Token totals and their estimated API cost, parsed from the local Claude Code transcripts (~/.claude/projects/**/*.jsonl).
 /// </summary>
 public sealed class ClaudeProvider(ClaudeConfig cfg, HttpClient http) : IUsageProvider
 {
@@ -131,17 +131,32 @@ public sealed class ClaudeProvider(ClaudeConfig cfg, HttpClient http) : IUsagePr
     // sessions copy earlier messages), hence one shared set and a full reset if any file gets rewritten.
     private static readonly HashSet<string> SeenMessages = [];
     private static DateTime _cachedMonth;
-    private static readonly JsonlTail<Dictionary<DateOnly, long>> Transcripts = CreateTranscriptCache();
+    private static readonly JsonlTail<Dictionary<DateOnly, DayUsage>> Transcripts = CreateTranscriptCache();
 
-    private static JsonlTail<Dictionary<DateOnly, long>> CreateTranscriptCache()
+    /// <summary>One day's totals. <see cref="Unpriced"/>: some tokens came from a model missing from <see cref="ClaudePricing"/>.</summary>
+    private sealed class DayUsage
     {
-        var tail = new JsonlTail<Dictionary<DateOnly, long>>("\"usage\""u8.ToArray(), AddTokens) { ResetAllOnRewrite = true };
+        public long Tokens;
+        public double Cost;
+        public bool Unpriced;
+
+        public void Add(DayUsage other)
+        {
+            Tokens += other.Tokens;
+            Cost += other.Cost;
+            Unpriced |= other.Unpriced;
+        }
+    }
+
+    private static JsonlTail<Dictionary<DateOnly, DayUsage>> CreateTranscriptCache()
+    {
+        var tail = new JsonlTail<Dictionary<DateOnly, DayUsage>>("\"usage\""u8.ToArray(), AddTokens) { ResetAllOnRewrite = true };
         tail.Cleared += SeenMessages.Clear;
         return tail;
     }
 
-    /// <summary>Adds one transcript line's tokens to its day in the file's per-day totals.</summary>
-    private static void AddTokens(Dictionary<DateOnly, long> days, JsonElement root)
+    /// <summary>Adds one transcript line's tokens and estimated cost to its day in the file's per-day totals.</summary>
+    private static void AddTokens(Dictionary<DateOnly, DayUsage> days, JsonElement root)
     {
         if (root.ValueKind != JsonValueKind.Object) return;
         if (!root.TryGetProperty("timestamp", out var tsEl) || !tsEl.TryGetDateTime(out var ts)) return;
@@ -159,7 +174,13 @@ public sealed class ClaudeProvider(ClaudeConfig cfg, HttpClient http) : IUsagePr
         var tokens = Get(usage, "input_tokens") + Get(usage, "output_tokens")
                    + Get(usage, "cache_creation_input_tokens") + Get(usage, "cache_read_input_tokens");
         var day = DateOnly.FromDateTime(ts);
-        days[day] = days.GetValueOrDefault(day) + tokens;
+        if (!days.TryGetValue(day, out var totals)) days[day] = totals = new DayUsage();
+        totals.Tokens += tokens;
+        if (tokens == 0) return; // e.g. Claude Code's "<synthetic>" placeholder messages
+
+        var model = msg.TryGetProperty("model", out var mEl) && mEl.ValueKind == JsonValueKind.String ? mEl.GetString() : null;
+        if (ClaudePricing.Cost(model, usage) is { } cost) totals.Cost += cost;
+        else totals.Unpriced = true;
 
         static long Get(JsonElement e, string name) =>
             e.TryGetProperty(name, out var v) && v.ValueKind == JsonValueKind.Number ? v.GetInt64() : 0;
@@ -184,15 +205,19 @@ public sealed class ClaudeProvider(ClaudeConfig cfg, HttpClient http) : IUsagePr
         var files = projects.EnumerateFiles("*.jsonl", SearchOption.AllDirectories)
             .Where(f => f.LastWriteTime >= monthStart);
         var today = DateOnly.FromDateTime(todayStart);
-        long todayTokens = 0, monthTokens = 0;
+        DayUsage todayTotals = new(), monthTotals = new();
         foreach (var days in Transcripts.Update(files, ct))
         {
-            todayTokens += days.GetValueOrDefault(today);
-            monthTokens += days.Values.Sum();
+            if (days.TryGetValue(today, out var t)) todayTotals.Add(t);
+            foreach (var d in days.Values) monthTotals.Add(d);
         }
 
-        return [new UsageLine(Strings.LabelTokensToday, FormatTokens(todayTokens)), new UsageLine(Strings.LabelTokensMonth, FormatTokens(monthTokens))];
+        return [new UsageLine(Strings.LabelTokensToday, FormatUsage(todayTotals)), new UsageLine(Strings.LabelTokensMonth, FormatUsage(monthTotals))];
     }
+
+    /// <summary>"12.3M · ≈ $4.56"; "≥" instead of "≈" when some tokens couldn't be priced.</summary>
+    private static string FormatUsage(DayUsage u) =>
+        u.Tokens == 0 ? FormatTokens(0) : Strings.TokensWithCost(FormatTokens(u.Tokens), u.Unpriced ? "≥" : "≈", u.Cost);
 
     internal static string FormatTokens(long n) => n switch
     {
