@@ -16,4 +16,16 @@
     <SatelliteResourceLanguages>en;it</SatelliteResourceLanguages>
   </PropertyGroup>
 
+  <!-- `dotnet publish -c Release` produces a single self-contained, compressed .exe (no .NET needed on the target).
+       The README lists the overrides for the uncompressed and framework-dependent variants. -->
+  <PropertyGroup>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained Condition="'$(SelfContained)' == ''">true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+  </PropertyGroup>
+  <!-- Compression is only allowed for self-contained bundles (NETSDK1176), so a framework-dependent publish drops it. -->
+  <PropertyGroup Condition="'$(SelfContained)' == 'true'">
+    <EnableCompressionInSingleFile Condition="'$(EnableCompressionInSingleFile)' == ''">true</EnableCompressionInSingleFile>
+  </PropertyGroup>
+
 </Project>

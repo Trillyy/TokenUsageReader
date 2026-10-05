@@ -19,12 +19,19 @@ App per la tray di Windows (le icone in basso a destra, vicino all'orologio) che
 dotnet run -c Release
 ```
 
-Per creare un singolo `.exe` che non richiede .NET installato:
+Per creare un singolo `.exe` ci sono tre modi. L'output è sempre `bin\Release\net10.0-windows\win-x64\publish\TokenUsageReader.exe`.
 
-```powershell
-dotnet publish -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
-# output: bin\Release\net10.0-windows\win-x64\publish\TokenUsageReader.exe
-```
+| Modalità | Comando | Dimensione | Requisito sul PC |
+|---|---|---|---|
+| Self-contained compresso (predefinito) | `dotnet publish -c Release` | ~47 MB | nessuno |
+| Self-contained non compresso | `dotnet publish -c Release -p:EnableCompressionInSingleFile=false` | ~103 MB | nessuno |
+| Framework-dependent | `dotnet publish -c Release --self-contained false` | ~330 KB | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0): `winget install Microsoft.DotNet.DesktopRuntime.10` |
+
+- **Self-contained compresso**: l'exe contiene il runtime .NET e Windows Forms compressi, e li decomprime all'avvio. Il primo avvio è un po' più lento, ma l'app gira su qualsiasi Windows 10/11.
+- **Self-contained non compresso**: stesso contenuto senza compressione. È più grande ma si avvia un po' più in fretta.
+- **Framework-dependent**: l'exe contiene solo il codice dell'app e usa il runtime .NET installato sul PC. Se manca, all'avvio Windows propone di scaricarlo.
+
+Le opzioni predefinite sono nel `.csproj`.
 
 Per avviarla all'accesso, usa la voce **Avvia con Windows** del menu. Scrive il percorso dell'eseguibile in `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`, quindi va attivata dall'`.exe` pubblicato e non da `dotnet run`.
 
