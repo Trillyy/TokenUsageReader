@@ -54,6 +54,7 @@ internal static class Strings
     public static string ClaudeEnabled => Get();
     public static string ClaudeLimits => Get();
     public static string ClaudeLocalTokens => Get();
+    public static string ApiBudget => Get();
     public static string HintClaude => Get();
     public static string CopilotEnabled => Get();
     public static string Mode => Get();
@@ -94,6 +95,8 @@ internal static class Strings
     public static string LimitsStale(DateTime dataAt, DateTime retryAt) => Format(dataAt, retryAt);
     public static string LabelTokensToday => Get();
     public static string LabelTokensMonth => Get();
+    public static string LabelApiBudget => Get();
+    public static string ApiBudgetValue(string atLeast, double costUsd, int budgetUsd, double percent) => string.Format(Culture, Get(), atLeast, costUsd, budgetUsd, percent);
     public static string TokensWithCost(string tokens, string approx, double usd) => string.Format(Culture, Get(), tokens, approx, usd);
     public static string ResetNow => Get();
     public static string ResetIn(int hours, int minutes) => Format(hours, minutes);

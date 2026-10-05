@@ -24,6 +24,7 @@ internal sealed class SettingsForm : Form
     private readonly FluentCheckBox _claudeEnabled = new();
     private readonly FluentCheckBox _claudeLimits = new();
     private readonly FluentCheckBox _claudeTokens = new();
+    private readonly FluentNumberBox _claudeBudget = Number(0, AppConfig.MaxApiBudgetUsd);
 
     // Copilot
     private readonly FluentCheckBox _copilotEnabled = new();
@@ -85,6 +86,7 @@ internal sealed class SettingsForm : Form
                 Row(null, _claudeEnabled),
                 Row(null, _claudeLimits),
                 Row(null, _claudeTokens),
+                Row(() => Strings.ApiBudget, _claudeBudget),
                 Hint(() => Strings.HintClaude)),
             Page(() => "Copilot",
                 Row(null, _copilotEnabled),
@@ -133,7 +135,7 @@ internal sealed class SettingsForm : Form
         CancelButton = cancel;
 
         LoadValues();
-        foreach (var c in new[] { _autoRefresh, _claudeEnabled, _copilotEnabled })
+        foreach (var c in new[] { _autoRefresh, _claudeEnabled, _claudeTokens, _copilotEnabled })
             c.CheckedChanged += (_, _) => UpdateEnabled();
         _copilotMode.SelectedIndexChanged += (_, _) => UpdateEnabled();
         _language.SelectedIndexChanged += (_, _) => OnLanguagePicked();
@@ -173,6 +175,7 @@ internal sealed class SettingsForm : Form
         _claudeEnabled.Checked = _cfg.Claude.Enabled;
         _claudeLimits.Checked = _cfg.Claude.ShowSubscriptionLimits;
         _claudeTokens.Checked = _cfg.Claude.ShowLocalTokens;
+        _claudeBudget.Value = _cfg.Claude.MonthlyApiBudgetUsd;
 
         _copilotEnabled.Checked = _cfg.Copilot.Enabled;
         _copilotMode.SelectedIndex = _cfg.Copilot.Mode == CopilotMode.Billing ? 1 : 0;
@@ -187,6 +190,7 @@ internal sealed class SettingsForm : Form
         _refreshMinutes.Enabled = _autoRefresh.Checked;
 
         _claudeLimits.Enabled = _claudeTokens.Enabled = _claudeEnabled.Checked;
+        _claudeBudget.Enabled = _claudeEnabled.Checked && _claudeTokens.Checked;
 
         var copilot = _copilotEnabled.Checked;
         var billing = _copilotMode.SelectedIndex == 1;
@@ -216,6 +220,7 @@ internal sealed class SettingsForm : Form
         _cfg.Claude.Enabled = _claudeEnabled.Checked;
         _cfg.Claude.ShowSubscriptionLimits = _claudeLimits.Checked;
         _cfg.Claude.ShowLocalTokens = _claudeTokens.Checked;
+        _cfg.Claude.MonthlyApiBudgetUsd = _claudeBudget.Value;
 
         _cfg.Copilot.Enabled = _copilotEnabled.Checked;
         _cfg.Copilot.Mode = billing ? CopilotMode.Billing : CopilotMode.Internal;

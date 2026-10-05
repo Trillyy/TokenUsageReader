@@ -41,7 +41,7 @@ public sealed class ClaudeProvider(ClaudeConfig cfg, HttpClient http) : IUsagePr
 
         if (cfg.ShowLocalTokens)
         {
-            try { lines.AddRange(await Task.Run(() => ReadLocalTokens(ct), ct)); }
+            try { lines.AddRange(await Task.Run(() => ReadLocalTokens(cfg.MonthlyApiBudgetUsd, ct), ct)); }
             catch (Exception ex) { errors.Add(ex.Message); }
         }
 
@@ -188,7 +188,7 @@ public sealed class ClaudeProvider(ClaudeConfig cfg, HttpClient http) : IUsagePr
 
     private static DateTime MonthStart(DateTime day) => new(day.Year, day.Month, 1);
 
-    private static IEnumerable<UsageLine> ReadLocalTokens(CancellationToken ct)
+    private static IEnumerable<UsageLine> ReadLocalTokens(int budgetUsd, CancellationToken ct)
     {
         var projects = new DirectoryInfo(Path.Combine(ClaudeDir, "projects"));
         if (!projects.Exists) return [];
@@ -212,7 +212,14 @@ public sealed class ClaudeProvider(ClaudeConfig cfg, HttpClient http) : IUsagePr
             foreach (var d in days.Values) monthTotals.Add(d);
         }
 
-        return [new UsageLine(Strings.LabelTokensToday, FormatUsage(todayTotals)), new UsageLine(Strings.LabelTokensMonth, FormatUsage(monthTotals))];
+        List<UsageLine> lines = [new(Strings.LabelTokensToday, FormatUsage(todayTotals)), new(Strings.LabelTokensMonth, FormatUsage(monthTotals))];
+        // The percentage feeds the tray icon like the subscription limits do.
+        if (budgetUsd > 0)
+        {
+            var pct = monthTotals.Cost / budgetUsd * 100;
+            lines.Add(new UsageLine(Strings.LabelApiBudget, Strings.ApiBudgetValue(monthTotals.Unpriced ? "≥ " : "", monthTotals.Cost, budgetUsd, pct), pct));
+        }
+        return lines;
     }
 
     /// <summary>"12.3M · ≈ $4.56"; "≥" instead of "≈" when some tokens couldn't be priced.</summary>

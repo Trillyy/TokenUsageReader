@@ -13,6 +13,7 @@ public sealed partial class AppConfig
 
     public const int MinRefreshMinutes = 1, MaxRefreshMinutes = 1440;
     public const int MinPremiumQuota = 1, MaxPremiumQuota = 100_000;
+    public const int MaxApiBudgetUsd = 100_000;
 
     /// <summary>UI language; defaults to Italian on an Italian Windows, English otherwise.</summary>
     public AppLanguage Language { get; set; } = SystemLanguage();
@@ -107,6 +108,7 @@ public sealed partial class AppConfig
         Claude ??= new ClaudeConfig();
         Copilot ??= new CopilotConfig();
         RefreshMinutes = Math.Clamp(RefreshMinutes, MinRefreshMinutes, MaxRefreshMinutes);
+        Claude.MonthlyApiBudgetUsd = Math.Clamp(Claude.MonthlyApiBudgetUsd, 0, MaxApiBudgetUsd);
         Copilot.MonthlyPremiumQuota = Math.Clamp(Copilot.MonthlyPremiumQuota, MinPremiumQuota, MaxPremiumQuota);
         if (!Enum.IsDefined(Copilot.Mode)) Copilot.Mode = CopilotMode.Internal;
         if (!Enum.IsDefined(Language)) Language = SystemLanguage();
@@ -152,6 +154,8 @@ public sealed class ClaudeConfig
     public bool ShowSubscriptionLimits { get; set; } = true;
     /// <summary>Sum token usage from the local Claude Code JSONL logs.</summary>
     public bool ShowLocalTokens { get; set; } = true;
+    /// <summary>Monthly budget in USD for the estimated API cost of the local tokens; 0 = no budget line.</summary>
+    public int MonthlyApiBudgetUsd { get; set; }
 }
 
 /// <summary>Stored in config.json as "it" / "en".</summary>

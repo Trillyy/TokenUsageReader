@@ -35,7 +35,8 @@
   <data name="ClaudeEnabled" xml:space="preserve"><value>Enable Claude</value></data>
   <data name="ClaudeLimits" xml:space="preserve"><value>Pro/Max subscription limits (5h and weekly windows)</value></data>
   <data name="ClaudeLocalTokens" xml:space="preserve"><value>Tokens from local Claude Code (today and month, with estimated cost)</value></data>
-  <data name="HintClaude" xml:space="preserve"><value>The limits use the Claude Code login (~/.claude/.credentials.json) through an undocumented endpoint. The cost is an estimate at API list prices, not what a Pro/Max subscription charges.</value></data>
+  <data name="ApiBudget" xml:space="preserve"><value>API budget/month ($):</value></data>
+  <data name="HintClaude" xml:space="preserve"><value>The limits use the Claude Code login (~/.claude/.credentials.json) through an undocumented endpoint. The cost is an estimate at API list prices, not what a Pro/Max subscription charges. With a monthly API budget (0 = none) the estimated cost of the month is shown as a percentage of it, also on the tray icon.</value></data>
   <data name="CopilotEnabled" xml:space="preserve"><value>Enable GitHub Copilot</value></data>
   <data name="Mode" xml:space="preserve"><value>Mode:</value></data>
   <data name="CopilotModeInternal" xml:space="preserve"><value>internal – % of quota (undocumented)</value></data>
@@ -77,6 +78,8 @@
   <data name="LabelTokensToday" xml:space="preserve"><value>Tokens today</value></data>
   <data name="LabelTokensMonth" xml:space="preserve"><value>Tokens this month</value></data>
   <data name="TokensWithCost" xml:space="preserve"><value>{0} · {1} ${2:0.00}</value></data>
+  <data name="LabelApiBudget" xml:space="preserve"><value>API budget</value></data>
+  <data name="ApiBudgetValue" xml:space="preserve"><value>{0}${1:0.00} / ${2} ({3:0}%)</value></data>
   <data name="ResetNow" xml:space="preserve"><value>now</value></data>
   <data name="ResetIn" xml:space="preserve"><value>in {0}h{1:00}</value></data>
 

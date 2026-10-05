@@ -69,7 +69,8 @@ Le impostazioni sono salvate in `%APPDATA%\TokenUsageReader\config.json`, creato
   "claude": {
     "enabled": true,
     "showSubscriptionLimits": true,
-    "showLocalTokens": true
+    "showLocalTokens": true,
+    "monthlyApiBudgetUsd": 0
   },
   "copilot": {
     "enabled": true,
@@ -86,6 +87,7 @@ Le impostazioni sono salvate in `%APPDATA%\TokenUsageReader\config.json`, creato
 | `language` | Lingua dell'interfaccia: `it` (italiano) o `en` (inglese). Se manca, segue la lingua di Windows (italiano se Windows è in italiano, altrimenti inglese). |
 | `autoRefresh` | Attiva o disattiva l'aggiornamento automatico. Se è disattivato, i dati si aggiornano solo con *Aggiorna ora*. |
 | `refreshMinutes` | Ogni quanti minuti avviene l'aggiornamento automatico (da 1 a 1440). Claude e Copilot vengono letti a ogni aggiornamento. |
+| `claude.monthlyApiBudgetUsd` | Budget mensile in dollari per il costo stimato dei token locali (da 0 a 100000, `0` = nessun budget). Se è impostato, il menu mostra la riga *Budget API* (es. `$165.71 / $200 (83%)`) e la percentuale conta anche per l'icona. Il mese è quello di calendario: la percentuale riparte da zero il primo del mese. |
 | `copilot.mode` | `internal` oppure `billing`. |
 | `copilot.showLocalCliUsage` | Mostra le premium request lette dalle sessioni locali della CLI `copilot`. |
 | `copilot.username` / `monthlyPremiumQuota` | Servono solo in modalità `billing`. La quota è 300 per Pro e 1500 per Pro+. |
